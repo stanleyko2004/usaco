@@ -1,19 +1,11 @@
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Scanner;
-import java.util.Set;
-import java.util.StringTokenizer;
 
 public class Convention2 {
 	public static void main(String[] args) throws IOException{
@@ -23,6 +15,7 @@ public class Convention2 {
 		for (int i=0;i<n;i++){
 			cows[i] = new cow(i,reader.nextInt(),reader.nextInt());
 		}
+		reader.close();
 		Arrays.sort(cows,new byLoc());
 		PriorityQueue<cow> waiting = new PriorityQueue<cow>(new bySen());
 		int time = cows[0].l;
