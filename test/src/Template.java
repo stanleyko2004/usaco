@@ -15,12 +15,8 @@ import java.util.StringTokenizer;
 
 public class Template {
 	public static void main(String[] args) throws IOException{
-		BufferedReader reader = new BufferedReader(new FileReader("poetry.in"));
-		PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("poetry.out")));
-		StringTokenizer st = new StringTokenizer(reader.readLine());
-		int n = Integer.parseInt(st.nextToken());
-		
-		writer.close();
-		reader.close();
+		for (float i=0; i<=1; i+=0.01){
+			System.out.println(Math.round(i*100.0)/100.0);
+		}
 	}
 }

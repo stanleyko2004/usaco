@@ -21,7 +21,10 @@ public class DepthFirstSearch {
 			graph[c[i][0]].neighbors.add(c[i][1]);
 			graph[c[i][1]].neighbors.add(c[i][0]);
 		}
-		dfs(1);
+		int[] ans = ts(1);
+		for (int i=0; i<n; i++){
+			System.out.println(ans[i]);
+		}
 	}
 	//usually for tree, v vertices with v-1 edges and no cycles
 	public static void dfs(int sourceNode){//iterative
@@ -48,6 +51,37 @@ public class DepthFirstSearch {
 			//push next on top
 			cur.push(next);
 		}
+	}
+	public static int[] ts(int sourceNode){//topological sort
+		Stack<Integer> cur = new Stack<Integer>();
+		cur.push(sourceNode);
+		traversed = new boolean[n];
+		traversed[sourceNode] = true;
+		//usually do something here
+		int ct = 0;
+		int[] ans = new int[n];
+		for (int i=0; i<n-1; i++){
+			//find next
+			while (graph[cur.peek()].neighbors.isEmpty()){
+				ans[ct++] = cur.pop();
+			}
+			int next = graph[cur.peek()].neighbors.pop();
+			while (traversed[next] && !cur.isEmpty()){
+				while (graph[cur.peek()].neighbors.isEmpty()){
+					ans[ct++] = cur.pop();
+				}
+				next = graph[cur.peek()].neighbors.pop();
+			}
+			traversed[next] = true;
+			//do operation
+			//System.out.println(next);
+			//push next on top
+			cur.push(next);
+		}
+		while (!cur.isEmpty()){
+			ans[ct++] = cur.pop();
+		}
+		return ans;
 	}
 	public static class Node{
 		public Stack<Integer> neighbors;

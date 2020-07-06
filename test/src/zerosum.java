@@ -19,35 +19,54 @@ public class zerosum {
 	public static int n;
 	public static final String[] operations = new String[]{"+","-"," "};
 	public static ArrayList<String>[] exps;
-	static PrintWriter writer;
+	public static ArrayList<String> ans = new ArrayList<String>();
     public static void main(String[] args) throws Exception {
         BufferedReader reader = new BufferedReader(new FileReader("zerosum.in"));
-        writer = new PrintWriter(new BufferedWriter(new FileWriter("zerosum.out")));
+        PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("zerosum.out")));
         n = Integer.parseInt(reader.readLine());
         genExp();
         eval();
+        Collections.sort(ans);
+        for (String i : ans){
+        	writer.println(i);
+        }
 		writer.close();
 	}
     public static void eval(){
     	for (String i: exps[n-1]){
     		int total = 0;
-    		int cur = 0;
-    		String copy = i;
-    		copy.replaceAll(" ","");
-    		for (int j=0; j<copy.length(); j++){
-    			if (copy.charAt(j)=='+'){
-    				total += cur;
-    				cur = 0;
-    			} else if (copy.charAt(j)=='-'){
-    				total -= cur;
-    				cur = 0;
+    		String copy = String.valueOf(i);
+    		copy = copy.replaceAll(" ", "");
+    		//find first
+    		int prev = 0;
+    		int cnt = 0;
+    		while (cnt < copy.length() && copy.charAt(cnt) != '+' && copy.charAt(cnt) != '-'){
+    			cnt++;
+    		}
+    		int cur = Integer.parseInt(String.valueOf(copy.substring(0,cnt)));
+    		total += cur;
+    		prev = cnt + 1;
+    		while (cnt < copy.length()){
+    			if (copy.charAt(cnt) == '+'){
+    				cnt++;
+    				while (cnt < copy.length() && copy.charAt(cnt) != '+' && copy.charAt(cnt) != '-'){
+    					cnt++;
+    				}
+    	    		cur = Integer.parseInt(String.valueOf(copy.substring(prev,cnt)));
+    	    		total += cur;
+    	    		prev = cnt + 1;
     			} else {
-    				cur *= 10;
-    				cur += Integer.parseInt(String.valueOf(copy.charAt(j)));
+    				cnt++;
+    				while (cnt < copy.length() && copy.charAt(cnt) != '+' && copy.charAt(cnt) != '-'){
+    					cnt++;
+    				}
+    	    		cur = Integer.parseInt(String.valueOf(copy.substring(prev,cnt)));
+    	    		total -= cur;
+    	    		prev = cnt + 1;
     			}
     		}
     		if (total == 0){
-    			writer.println(i);
+    			ans.add(i);
     		}
     	}
     }
